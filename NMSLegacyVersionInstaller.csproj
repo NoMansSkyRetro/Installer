@@ -209,6 +209,9 @@
     <EmbeddedResource Include="InstallerFiles\protobuf-net.Core.dll" />
     <EmbeddedResource Include="InstallerFiles\protobuf-net.dll" />
     <EmbeddedResource Include="InstallerFiles\SteamKit2.dll" />
+    <EmbeddedResource Include="InstallerFiles\QRCoder.dll" />
+    <EmbeddedResource Include="InstallerFiles\System.IO.Hashing.dll" />
+    <EmbeddedResource Include="InstallerFiles\ZstdSharp.dll" />
     <EmbeddedResource Include="InstallerFiles\Steamless.CLI.exe" />
     <EmbeddedResource Include="InstallerFiles\steam_api64.dll" />
     <Content Include="icon.ico" />
