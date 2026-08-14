@@ -50,7 +50,7 @@ namespace NMSLegacyVersionInstaller.Steps
                 process.WaitForExit();
             }    
 
-            if (!dnOutput.Contains("Microsoft.WindowsDesktop.App x"))
+            if (!dnOutput.Contains("Microsoft.WindowsDesktop.App 9"))
             {
                 // Lookup .NET 9.0 Windows x64 runtime download link
                 string downloadUrl = TryGetDotNet9RuntimeDownloadUrl();
