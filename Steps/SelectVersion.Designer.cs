@@ -1,4 +1,4 @@
-﻿namespace NMSLegacyVersionInstaller.Steps
+namespace NMSLegacyVersionInstaller.Steps
 {
     partial class SelectVersion
     {
@@ -35,6 +35,7 @@
             this.lblStepTitle = new System.Windows.Forms.Label();
             this.rb01 = new System.Windows.Forms.CheckBox();
             this.grpOptions = new System.Windows.Forms.GroupBox();
+            this.btnBrowse = new System.Windows.Forms.Button();
             this.txtPath = new System.Windows.Forms.TextBox();
             this.lblPath = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -115,6 +116,7 @@
             // 
             // grpOptions
             // 
+            this.grpOptions.Controls.Add(this.btnBrowse);
             this.grpOptions.Controls.Add(this.txtPath);
             this.grpOptions.Controls.Add(this.lblPath);
             this.grpOptions.Location = new System.Drawing.Point(12, 347);
@@ -124,11 +126,21 @@
             this.grpOptions.TabStop = false;
             this.grpOptions.Text = "Installation Options";
             // 
+            // btnBrowse
+            // 
+            this.btnBrowse.Location = new System.Drawing.Point(555, 39);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(30, 23);
+            this.btnBrowse.TabIndex = 2;
+            this.btnBrowse.Text = "...";
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
             // txtPath
             // 
             this.txtPath.Location = new System.Drawing.Point(9, 41);
             this.txtPath.Name = "txtPath";
-            this.txtPath.Size = new System.Drawing.Size(585, 20);
+            this.txtPath.Size = new System.Drawing.Size(540, 20);
             this.txtPath.TabIndex = 1;
             this.txtPath.Text = "C:\\NMSLegacy\\";
             // 
@@ -256,6 +268,7 @@
         private System.Windows.Forms.Label lblPath;
         public System.Windows.Forms.CheckBox rb01;
         public System.Windows.Forms.TextBox txtPath;
+        private System.Windows.Forms.Button btnBrowse;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         public System.Windows.Forms.CheckBox rb02;

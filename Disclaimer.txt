@@ -16,7 +16,7 @@ ConsoleControl / ConsoleControlAPI by Dave Kerr - https://github.com/dwmkerr/con
 LICENSE: MIT License
 - Used to display CLI application output and allow user input
 
-DepotDownloader 2.4.7 by OpenSteamworks - https://github.com/SteamRE/DepotDownloader
+DepotDownloader 3.4.0 by OpenSteamworks - https://github.com/SteamRE/DepotDownloader
 LICENSE: GNU General Public License v2.0
 - Used to download old versions of the game from Steam.
 
