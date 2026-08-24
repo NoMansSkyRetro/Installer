@@ -25,7 +25,7 @@ namespace NMSLegacyVersionInstaller.Steps
         public string extras;
         public bool useVersionId;
         public bool autoShaders;
-        public ShaderFix.Gpu gpu;
+        public Enums.GPU gpu;
 
         private void FinalSteps_Load(object sender, EventArgs e)
         {
@@ -44,6 +44,13 @@ namespace NMSLegacyVersionInstaller.Steps
             console.AppendLine("Extracting Extras..." + Environment.NewLine, Color.Lime);
             Program.ExtractInstallerFiles("NMSLegacyVersionInstaller.InstallerExtras.", extras);
             Program.CreateShortcutWithIcon(Path.Combine(depotDownloader.InstallationPath, "RetroShaderFix.lnk"), Path.Combine(extras, "RetroShaderFix.exe"), "", depotDownloader.InstallationPath);
+
+            // Discord invite: a .url internet shortcut (opens in the browser) with the bundled discord.ico.
+            File.WriteAllText(Path.Combine(depotDownloader.InstallationPath, "No Man's Sky Retro Discord.url"),
+                "[InternetShortcut]" + Environment.NewLine +
+                "URL=https://discord.gg/YcQ8Aq2FA6" + Environment.NewLine +
+                "IconFile=" + Path.Combine(extras, "discord.ico") + Environment.NewLine +
+                "IconIndex=0" + Environment.NewLine);
 
             if (useVersionId)
             {
@@ -64,7 +71,7 @@ namespace NMSLegacyVersionInstaller.Steps
 
             if (autoShaders)
             {
-                gpu = ShaderFix.DetectGpu(s => console.AppendLine(s + Environment.NewLine, Color.Silver));
+                gpu = ShaderFix.DetectGPU(s => console.AppendLine(s + Environment.NewLine, Color.Silver));
                 console.AppendLine("Shader fix enabled - detected GPU vendor: " + gpu + Environment.NewLine, Color.Lime);
             }
 
@@ -98,7 +105,7 @@ namespace NMSLegacyVersionInstaller.Steps
             console.AppendLine("[Goldberg Steam Emulator] Configure User..." + Environment.NewLine, Color.Orange);
             Directory.CreateDirectory(Path.Combine(binaries, "steam_settings"));
             File.WriteAllText(Path.Combine(binaries, "steam_settings", "force_account_name.txt"), Steam.Username);
-            string steamId = useVersionId ? ShaderFix.DummySteamId(thisCommand.update) : Steam.ID;
+            string steamId = useVersionId ? SteamID.DummySteamID(thisCommand.update) : Steam.ID;
             if (!string.IsNullOrEmpty(steamId))
             {
                 File.WriteAllText(Path.Combine(binaries, "steam_settings", "force_steamid.txt"), steamId);

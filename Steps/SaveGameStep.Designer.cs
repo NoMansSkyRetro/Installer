@@ -20,13 +20,13 @@ namespace NMSLegacyVersionInstaller.Steps
             this.lblStepTitle = new System.Windows.Forms.Label();
             this.lblExplain = new System.Windows.Forms.Label();
             this.grpSave = new System.Windows.Forms.GroupBox();
-            this.pbOrb1 = new NMSLegacyVersionInstaller.HqPictureBox();
-            this.pbOrb2 = new NMSLegacyVersionInstaller.HqPictureBox();
-            this.pbOrb3 = new NMSLegacyVersionInstaller.HqPictureBox();
-            this.pbOrb4 = new NMSLegacyVersionInstaller.HqPictureBox();
+            this.pbOrb1 = new System.Windows.Forms.PictureBox();
+            this.pbOrb2 = new System.Windows.Forms.PictureBox();
+            this.pbOrb3 = new System.Windows.Forms.PictureBox();
+            this.pbOrb4 = new System.Windows.Forms.PictureBox();
             this.rbVersionId = new System.Windows.Forms.RadioButton();
             this.lblVersionDesc = new System.Windows.Forms.Label();
-            this.pbSmart = new NMSLegacyVersionInstaller.HqPictureBox();
+            this.pbSmart = new System.Windows.Forms.PictureBox();
             this.rbRealId = new System.Windows.Forms.RadioButton();
             this.lblRealDesc = new System.Windows.Forms.Label();
             this.grpSave.SuspendLayout();
@@ -186,13 +186,13 @@ namespace NMSLegacyVersionInstaller.Steps
         private System.Windows.Forms.Label lblStepTitle;
         private System.Windows.Forms.Label lblExplain;
         private System.Windows.Forms.GroupBox grpSave;
-        private NMSLegacyVersionInstaller.HqPictureBox pbOrb1;
-        private NMSLegacyVersionInstaller.HqPictureBox pbOrb2;
-        private NMSLegacyVersionInstaller.HqPictureBox pbOrb3;
-        private NMSLegacyVersionInstaller.HqPictureBox pbOrb4;
+        private System.Windows.Forms.PictureBox pbOrb1;
+        private System.Windows.Forms.PictureBox pbOrb2;
+        private System.Windows.Forms.PictureBox pbOrb3;
+        private System.Windows.Forms.PictureBox pbOrb4;
         public System.Windows.Forms.RadioButton rbVersionId;
         private System.Windows.Forms.Label lblVersionDesc;
-        private NMSLegacyVersionInstaller.HqPictureBox pbSmart;
+        private System.Windows.Forms.PictureBox pbSmart;
         public System.Windows.Forms.RadioButton rbRealId;
         private System.Windows.Forms.Label lblRealDesc;
     }

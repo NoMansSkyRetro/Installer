@@ -76,12 +76,16 @@
     <Compile Include="Container.Designer.cs">
       <DependentUpon>Container.cs</DependentUpon>
     </Compile>
+    <Compile Include="Enums.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steam.cs" />
     <Compile Include="ShaderFix.cs" />
-    <Compile Include="HqPictureBox.cs" />
-    <Compile Include="LogBox.cs" />
+    <Compile Include="ImageScaler.cs" />
+    <Compile Include="LogBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SteamID.cs" />
     <Compile Include="Steps\Complete.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -217,6 +221,7 @@
     <EmbeddedResource Include="InstallerExtras\03_icon.ico" />
     <EmbeddedResource Include="InstallerExtras\04_icon.ico" />
     <EmbeddedResource Include="InstallerExtras\SmartSaveFolder.exe" />
+    <EmbeddedResource Include="InstallerExtras\discord.ico" />
     <EmbeddedResource Include="InstallerShaderFix\Universal.AMDSpaceMapHorizon.pak" />
     <EmbeddedResource Include="InstallerShaderFix\Release.AMDFragData.pak" />
     <EmbeddedResource Include="InstallerShaderFix\Foundations.AMDTextureArray.pak" />

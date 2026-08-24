@@ -20,13 +20,13 @@ namespace NMSLegacyVersionInstaller.Steps
             this.lblStepTitle = new System.Windows.Forms.Label();
             this.lblExplain = new System.Windows.Forms.Label();
             this.grpShader = new System.Windows.Forms.GroupBox();
-            this.pbShader = new NMSLegacyVersionInstaller.HqPictureBox();
+            this.pbShader = new System.Windows.Forms.PictureBox();
             this.rbShaderAuto = new System.Windows.Forms.RadioButton();
             this.lblAutoDesc = new System.Windows.Forms.Label();
-            this.pbSkip = new NMSLegacyVersionInstaller.HqPictureBox();
+            this.pbSkip = new System.Windows.Forms.PictureBox();
             this.rbShaderSkip = new System.Windows.Forms.RadioButton();
             this.lblSkipDesc = new System.Windows.Forms.Label();
-            this.lblCredit = new System.Windows.Forms.Label();
+            this.lblCredit = new System.Windows.Forms.LinkLabel();
             this.grpShader.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbShader)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbSkip)).BeginInit();
@@ -128,11 +128,14 @@ namespace NMSLegacyVersionInstaller.Steps
             //
             this.lblCredit.AutoSize = true;
             this.lblCredit.ForeColor = System.Drawing.SystemColors.GrayText;
+            this.lblCredit.LinkArea = new System.Windows.Forms.LinkArea(33, 38);
             this.lblCredit.Location = new System.Drawing.Point(26, 212);
             this.lblCredit.Name = "lblCredit";
             this.lblCredit.Size = new System.Drawing.Size(320, 13);
             this.lblCredit.TabIndex = 5;
-            this.lblCredit.Text = "Shader fix by Ethan (EthanRDoesMC) - github.com/EthanRDoesMC/RetroShaderFix";
+            this.lblCredit.TabStop = true;
+            this.lblCredit.Text = "RetroShaderFix by EthanRDoesMC - github.com/EthanRDoesMC/RetroShaderFix";
+            this.lblCredit.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblCredit_LinkClicked);
             //
             // ShaderFixStep
             //
@@ -156,12 +159,12 @@ namespace NMSLegacyVersionInstaller.Steps
         private System.Windows.Forms.Label lblStepTitle;
         private System.Windows.Forms.Label lblExplain;
         private System.Windows.Forms.GroupBox grpShader;
-        private NMSLegacyVersionInstaller.HqPictureBox pbShader;
+        private System.Windows.Forms.PictureBox pbShader;
         public System.Windows.Forms.RadioButton rbShaderAuto;
         private System.Windows.Forms.Label lblAutoDesc;
-        private NMSLegacyVersionInstaller.HqPictureBox pbSkip;
+        private System.Windows.Forms.PictureBox pbSkip;
         public System.Windows.Forms.RadioButton rbShaderSkip;
         private System.Windows.Forms.Label lblSkipDesc;
-        private System.Windows.Forms.Label lblCredit;
+        private System.Windows.Forms.LinkLabel lblCredit;
     }
 }

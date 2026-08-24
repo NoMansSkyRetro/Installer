@@ -9,26 +9,9 @@ namespace NMSLegacyVersionInstaller
     // The .pak files (the actual fix) are made by Ethan (EthanRDoesMC) - https://github.com/EthanRDoesMC/RetroShaderFix
     public static class ShaderFix
     {
-        public enum Update { Release, Foundation, PathFinder, AtlasRises }
-        public enum Gpu { Unknown, AMD, nVidia }
-
-        // Version-based dummy Steam IDs (14 digits: major+minor of the version, zero padded).
-        // Each legacy version gets its own id so their save folders never collide - no SmartSaveFolder needed.
-        public static string DummySteamId(Update update)
+        public static Enums.GPU DetectGPU(Action<string> log = null)
         {
-            switch (update)
-            {
-                case Update.Release: return "00000000000019";     // v1.09
-                case Update.Foundation: return "00000000000113";  // v1.13
-                case Update.PathFinder: return "00000000000124";  // v1.24
-                case Update.AtlasRises: return "00000000000138";  // v1.38
-                default: return "00000000000019";
-            }
-        }
-
-        public static Gpu DetectGpu(Action<string> log = null)
-        {
-            Gpu result = Gpu.Unknown;
+            Enums.GPU result = Enums.GPU.Unknown;
             try
             {
                 using (var searcher = new ManagementObjectSearcher("SELECT Name FROM Win32_VideoController"))
@@ -39,10 +22,10 @@ namespace NMSLegacyVersionInstaller
                         if (log != null) log("Display adapter: " + raw);
                         string name = raw.ToLower();
                         // Take the first AMD/NVIDIA adapter (skip Intel iGPUs enumerated first on laptops).
-                        if (result == Gpu.Unknown)
+                        if (result == Enums.GPU.Unknown)
                         {
-                            if (name.Contains("amd") || name.Contains("radeon")) result = Gpu.AMD;
-                            else if (name.Contains("nvidia") || name.Contains("geforce")) result = Gpu.nVidia;
+                            if (name.Contains("amd") || name.Contains("radeon")) result = Enums.GPU.AMD;
+                            else if (name.Contains("nvidia") || name.Contains("geforce")) result = Enums.GPU.nVidia;
                         }
                     }
                 }
@@ -56,9 +39,9 @@ namespace NMSLegacyVersionInstaller
 
         // Applies the shader fix to one downloaded version folder (gameRoot contains Binaries\ and GAMEDATA\).
         // Returns a short human-readable result for logging. Mirrors RetroShaderFix ApplyFixes().
-        public static string Apply(string gameRoot, Update update, Gpu gpu, Action<string> log)
+        public static string Apply(string gameRoot, Enums.Update update, Enums.GPU gpu, Action<string> log)
         {
-            if (gpu == Gpu.Unknown)
+            if (gpu == Enums.GPU.Unknown)
                 return "GPU vendor not detected - shader fix skipped (run RetroShaderFix manually if needed)";
 
             string pcbanks = Path.Combine(gameRoot, "GAMEDATA", "PCBANKS");
@@ -72,9 +55,9 @@ namespace NMSLegacyVersionInstaller
             log("Target PCBANKS: " + pcbanks);
             bool madeChange = false;
 
-            if (update == Update.Release)
+            if (update == Enums.Update.Release)
             {
-                if (gpu == Gpu.AMD)
+                if (gpu == Enums.GPU.AMD)
                 {
                     madeChange = true;
                     ExtractPak("Universal.AMDSpaceMapHorizon.pak", pcbanks, log);
@@ -82,43 +65,43 @@ namespace NMSLegacyVersionInstaller
                 }
                 // No nVidia fix exists for Release.
             }
-            else if (update == Update.Foundation)
+            else if (update == Enums.Update.Foundation)
             {
                 bool hasModsFolder = File.Exists(disableMods) || Directory.Exists(modsFolder);
                 if (hasModsFolder)
                     TryDelete(disableMods, log);
                 string target = hasModsFolder ? modsFolder : pcbanks;
-                if (gpu == Gpu.AMD)
+                if (gpu == Enums.GPU.AMD)
                 {
                     madeChange = true;
                     ExtractPak("Universal.AMDSpaceMapHorizon.pak", target, log);
                     ExtractPak("Foundations.AMDTextureArray.pak", target, log);
                 }
-                else if (gpu == Gpu.nVidia)
+                else if (gpu == Enums.GPU.nVidia)
                 {
                     madeChange = true;
                     ExtractPak("Foundations.NVIDIAFragData.pak", target, log);
                 }
             }
-            else if (update == Update.PathFinder)
+            else if (update == Enums.Update.PathFinder)
             {
                 TryDelete(disableMods, log);
-                if (gpu == Gpu.AMD)
+                if (gpu == Enums.GPU.AMD)
                 {
                     madeChange = true;
                     ExtractPak("Universal.AMDSpaceMapHorizon.pak", modsFolder, log);
                     ExtractPak("Pathfinder.AMDTextureArray.pak", modsFolder, log);
                 }
-                else if (gpu == Gpu.nVidia)
+                else if (gpu == Enums.GPU.nVidia)
                 {
                     madeChange = true;
                     ExtractPak("Pathfinder.NVIDIAFragData.pak", modsFolder, log);
                 }
             }
-            else if (update == Update.AtlasRises)
+            else if (update == Enums.Update.AtlasRises)
             {
                 TryDelete(disableMods, log);
-                if (gpu == Gpu.AMD)
+                if (gpu == Enums.GPU.AMD)
                 {
                     madeChange = true;
                     ExtractPak("Universal.AMDSpaceMapHorizon.pak", modsFolder, log);

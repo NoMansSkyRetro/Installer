@@ -16,7 +16,7 @@ namespace NMSLegacyVersionInstaller.Steps
     {
         public class DepotDownloaderCommand
         {
-            public DepotDownloaderCommand(string folder, string manifest, string name, string icon, ShaderFix.Update update)
+            public DepotDownloaderCommand(string folder, string manifest, string name, string icon, Enums.Update update)
             {
                 this.folder = folder;
                 this.manifest = manifest;
@@ -28,7 +28,7 @@ namespace NMSLegacyVersionInstaller.Steps
             public string manifest { get; set; }
             public string name { get; set; }   // Used on final step
             public string icon { get; set; }   // Used on final step
-            public ShaderFix.Update update { get; set; } // Used for shader fix + save-folder id
+            public Enums.Update update { get; set; } // Used for shader fix + save-folder id
         }
 
         public string DepotDownloaderPath;
@@ -125,19 +125,19 @@ namespace NMSLegacyVersionInstaller.Steps
             if (selectversion.rb01.Checked)
                 DepotDownloaderCommands.Add(new DepotDownloaderCommand(
                     Path.Combine(InstallationPath, "no_mans_sky_v1.09.1"), "7324577403707723494",
-                    "No Man's Sky Initial Release", "01_icon.ico", ShaderFix.Update.Release));
+                    "No Man's Sky Initial Release", "01_icon.ico", Enums.Update.Release));
             if (selectversion.rb02.Checked)
                 DepotDownloaderCommands.Add(new DepotDownloaderCommand(
                     Path.Combine(InstallationPath, "no_mans_sky_v1.13"), "2123008115602074603",
-                    "No Man's Sky Foundation", "02_icon.ico", ShaderFix.Update.Foundation));
+                    "No Man's Sky Foundation", "02_icon.ico", Enums.Update.Foundation));
             if (selectversion.rb03.Checked)
                 DepotDownloaderCommands.Add(new DepotDownloaderCommand(
                     Path.Combine(InstallationPath, "no_mans_sky_v1.24"), "3749359456608052294",
-                    "No Man's Sky Path Finder", "03_icon.ico", ShaderFix.Update.PathFinder));
+                    "No Man's Sky Path Finder", "03_icon.ico", Enums.Update.PathFinder));
             if (selectversion.rb04.Checked)
                 DepotDownloaderCommands.Add(new DepotDownloaderCommand(
                     Path.Combine(InstallationPath, "no_mans_sky_v1.38"), "8262658978126728861",
-                    "No Man's Sky Atlas Rises", "04_icon.ico", ShaderFix.Update.AtlasRises));
+                    "No Man's Sky Atlas Rises", "04_icon.ico", Enums.Update.AtlasRises));
         }
 
         private void BuildProgressUI()

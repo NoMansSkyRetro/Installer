@@ -41,7 +41,7 @@
             this.lblStepTitle.Name = "lblStepTitle";
             this.lblStepTitle.Size = new System.Drawing.Size(93, 13);
             this.lblStepTitle.TabIndex = 1;
-            this.lblStepTitle.Text = "Downloading from Steam";
+            this.lblStepTitle.Text = "DepotDownloader";
             // 
             // lblExplain
             // 
@@ -50,7 +50,8 @@
             this.lblExplain.Name = "lblExplain";
             this.lblExplain.Size = new System.Drawing.Size(445, 13);
             this.lblExplain.TabIndex = 3;
-            this.lblExplain.Text = "Downloading your purchased copy of No Man\'s Sky from Steam.";
+            this.lblExplain.Text = "Downloading data from Steam. You may be prompted for your password or a two-facto" +
+    "r code.";
             // 
             // pnlConsole
             // 
