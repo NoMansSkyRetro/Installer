@@ -50,7 +50,9 @@ namespace NMSLegacyVersionInstaller.Steps
                 process.WaitForExit();
             }    
 
-            if (!dnOutput.Contains("Microsoft.WindowsDesktop.App 9"))
+            // DepotDownloader (net9.0 console app) needs Microsoft.NETCore.App (the base .NET Runtime),
+            // which is what the download link below installs. Desktop Runtime also works but isn't required.
+            if (!dnOutput.Contains("Microsoft.NETCore.App 9"))
             {
                 // Lookup .NET 9.0 Windows x64 runtime download link
                 string downloadUrl = TryGetDotNet9RuntimeDownloadUrl();

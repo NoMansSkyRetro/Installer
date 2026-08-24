@@ -79,6 +79,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Steam.cs" />
+    <Compile Include="ShaderFix.cs" />
+    <Compile Include="HqPictureBox.cs" />
+    <Compile Include="LogBox.cs" />
     <Compile Include="Steps\Complete.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -115,11 +118,29 @@
     <Compile Include="Steps\SelectVersion.Designer.cs">
       <DependentUpon>SelectVersion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Steps\SteamCredentials.cs">
+    <Compile Include="Steps\SteamLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Steps\SteamLoginForm.Designer.cs">
+      <DependentUpon>SteamLoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\SteamGuardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Steps\SteamGuardForm.Designer.cs">
+      <DependentUpon>SteamGuardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\SaveGameStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Steps\SteamCredentials.Designer.cs">
-      <DependentUpon>SteamCredentials.cs</DependentUpon>
+    <Compile Include="Steps\SaveGameStep.Designer.cs">
+      <DependentUpon>SaveGameStep.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Steps\ShaderFixStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Steps\ShaderFixStep.Designer.cs">
+      <DependentUpon>ShaderFixStep.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Container.resx">
       <DependentUpon>Container.cs</DependentUpon>
@@ -151,9 +172,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Steps\SelectVersion.resx">
       <DependentUpon>SelectVersion.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Steps\SteamCredentials.resx">
-      <DependentUpon>SteamCredentials.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InstallerFiles\DepotDownloader.deps.json" />
     <EmbeddedResource Include="InstallerFiles\DepotDownloader.runtimeconfig.json" />
@@ -199,6 +217,13 @@
     <EmbeddedResource Include="InstallerExtras\03_icon.ico" />
     <EmbeddedResource Include="InstallerExtras\04_icon.ico" />
     <EmbeddedResource Include="InstallerExtras\SmartSaveFolder.exe" />
+    <EmbeddedResource Include="InstallerShaderFix\Universal.AMDSpaceMapHorizon.pak" />
+    <EmbeddedResource Include="InstallerShaderFix\Release.AMDFragData.pak" />
+    <EmbeddedResource Include="InstallerShaderFix\Foundations.AMDTextureArray.pak" />
+    <EmbeddedResource Include="InstallerShaderFix\Foundations.NVIDIAFragData.pak" />
+    <EmbeddedResource Include="InstallerShaderFix\Pathfinder.AMDTextureArray.pak" />
+    <EmbeddedResource Include="InstallerShaderFix\Pathfinder.NVIDIAFragData.pak" />
+    <EmbeddedResource Include="InstallerShaderFix\AtlasRises.AMDTextureArray.pak" />
     <None Include="Resources\banner04.png" />
     <None Include="Resources\banner03.png" />
     <None Include="Resources\banner02.png" />

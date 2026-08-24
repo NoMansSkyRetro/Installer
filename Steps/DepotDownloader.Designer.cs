@@ -41,7 +41,7 @@
             this.lblStepTitle.Name = "lblStepTitle";
             this.lblStepTitle.Size = new System.Drawing.Size(93, 13);
             this.lblStepTitle.TabIndex = 1;
-            this.lblStepTitle.Text = "DepotDownloader";
+            this.lblStepTitle.Text = "Downloading from Steam";
             // 
             // lblExplain
             // 
@@ -50,8 +50,7 @@
             this.lblExplain.Name = "lblExplain";
             this.lblExplain.Size = new System.Drawing.Size(445, 13);
             this.lblExplain.TabIndex = 3;
-            this.lblExplain.Text = "Downloading data from Steam. You may be prompted for your password or a two-facto" +
-                "r code:";
+            this.lblExplain.Text = "Downloading your purchased copy of No Man\'s Sky from Steam.";
             // 
             // pnlConsole
             // 
@@ -69,7 +68,6 @@
             this.Controls.Add(this.lblStepTitle);
             this.Name = "DepotDownloader";
             this.Size = new System.Drawing.Size(624, 470);
-            this.Load += new System.EventHandler(this.SteamDoLogin_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

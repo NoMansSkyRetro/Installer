@@ -23,6 +23,10 @@ namespace NMSLegacyVersionInstaller.Steps
         {
             var depotDownloader = NMSLegacyVersionInstaller.Container.FindStep<DepotDownloader>();
             extras = Path.Combine(depotDownloader.InstallationPath, "Extras");
+
+            // SmartSaveFolder only applies when using a real Steam ID (shared save folder).
+            if (NMSLegacyVersionInstaller.Container.FindStep<SaveGameStep>().rbVersionId.Checked)
+                panel2.Visible = false;
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -47,13 +51,6 @@ namespace NMSLegacyVersionInstaller.Steps
         {
             var smartSaveFolder = Path.Combine(extras, "SmartSaveFolder.exe");
             Process.Start(smartSaveFolder);
-        }
-
-        private void btnRetroShaderFix_Click(object sender, EventArgs e)
-        {
-            Directory.SetCurrentDirectory(Directory.GetParent(extras).FullName);
-            var retroShaderFix = Path.Combine(extras, "RetroShaderFix.exe");
-            Process.Start(retroShaderFix);
         }
     }
 }

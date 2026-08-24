@@ -10,6 +10,7 @@ namespace NMSLegacyVersionInstaller
     public static class Steam
     {
         public static string Username { get; set; }
+        public static string Password { get; set; }
         public static string ID { get; set; }
 
         public static void TryGetSteamID()

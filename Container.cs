@@ -13,6 +13,12 @@ using System.Threading;
 
 namespace NMSLegacyVersionInstaller
 {
+    // A step that wants a callback every time it becomes the current step (not just once like Load).
+    public interface IStepEnter
+    {
+        void OnStepEnter();
+    }
+
     public partial class Container : Form
     {
         public Container()
@@ -24,8 +30,9 @@ namespace NMSLegacyVersionInstaller
             new Steps.ExtractTemporaryFiles(),
             new Steps.Disclaimer(),
             new Steps.SelectVersion(),
-            new Steps.SteamCredentials(),
             new Steps.DepotDownloader(),
+            new Steps.SaveGameStep(),
+            new Steps.ShaderFixStep(),
             new Steps.FinalSteps(),
             new Steps.Complete(),
         };
@@ -71,6 +78,7 @@ namespace NMSLegacyVersionInstaller
             pnlStep.Controls.Clear();
             Step++;
             pnlStep.Controls.Add(Sequence[Step]);
+            NotifyStepEnter();
             if (Step == Sequence.Count - 1)
             {
                 btnBack.Enabled = false;
@@ -80,6 +88,16 @@ namespace NMSLegacyVersionInstaller
             {
                 btnBack.Enabled = StepsEnabled;
             }
+            // No going back into the download once it's done (would restart the login/download).
+            if (Sequence[Step] is Steps.SaveGameStep)
+                btnBack.Enabled = false;
+        }
+
+        private void NotifyStepEnter()
+        {
+            var enter = Sequence[Step] as IStepEnter;
+            if (enter != null)
+                enter.OnStepEnter();
         }
         public void Back()
         {
@@ -87,10 +105,14 @@ namespace NMSLegacyVersionInstaller
             pnlStep.Controls.Clear();
             Step--;
             pnlStep.Controls.Add(Sequence[Step]);
+            NotifyStepEnter();
             if (Step == 0)
             {
                 btnBack.Enabled = false;
             }
+            // No going back into the download once it's done (would restart the login/download).
+            if (Sequence[Step] is Steps.SaveGameStep)
+                btnBack.Enabled = false;
         }
 
         public bool StepsEnabled = true;
