@@ -24,6 +24,7 @@ namespace NMSLegacyVersionInstaller.Steps
         public DepotDownloader depotDownloader;
         public string extras;
         public bool useVersionId;
+        public string realSteamId;   // SteamID64 picked on the SaveGameStep (empty = emulator default)
         public bool autoShaders;
         public Enums.GPU gpu;
 
@@ -61,12 +62,11 @@ namespace NMSLegacyVersionInstaller.Steps
             {
                 // Real Steam ID: all versions share one save folder, so ship SmartSaveFolder to switch between them.
                 Program.CreateShortcutWithIcon(Path.Combine(depotDownloader.InstallationPath, "SmartSaveFolder.lnk"), Path.Combine(extras, "SmartSaveFolder.exe"));
-                console.AppendLine("Fetching Steam ID..." + Environment.NewLine, Color.Lime);
-                Steam.TryGetSteamID();
-                if (!string.IsNullOrEmpty(Steam.ID))
-                    console.AppendLine("Steam ID is " + Steam.ID + Environment.NewLine, Color.Lime);
+                realSteamId = NMSLegacyVersionInstaller.Container.FindStep<SaveGameStep>().SelectedSteamId;
+                if (!string.IsNullOrEmpty(realSteamId))
+                    console.AppendLine("Save folder Steam ID: " + realSteamId + Environment.NewLine, Color.Lime);
                 else
-                    console.AppendLine("Unable to Find Steam ID" + Environment.NewLine, Color.Orange);
+                    console.AppendLine("No Steam account detected - using the emulator's default user." + Environment.NewLine, Color.Orange);
             }
 
             if (autoShaders)
@@ -105,7 +105,7 @@ namespace NMSLegacyVersionInstaller.Steps
             console.AppendLine("[Goldberg Steam Emulator] Configure User..." + Environment.NewLine, Color.Orange);
             Directory.CreateDirectory(Path.Combine(binaries, "steam_settings"));
             File.WriteAllText(Path.Combine(binaries, "steam_settings", "force_account_name.txt"), Steam.Username);
-            string steamId = useVersionId ? SteamID.DummySteamID(thisCommand.update) : Steam.ID;
+            string steamId = useVersionId ? Steam.DummySteamID(thisCommand.update) : realSteamId;
             if (!string.IsNullOrEmpty(steamId))
             {
                 File.WriteAllText(Path.Combine(binaries, "steam_settings", "force_steamid.txt"), steamId);

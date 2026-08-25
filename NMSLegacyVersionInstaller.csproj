@@ -85,7 +85,6 @@
     <Compile Include="LogBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SteamID.cs" />
     <Compile Include="Steps\Complete.cs">
       <SubType>UserControl</SubType>
     </Compile>
