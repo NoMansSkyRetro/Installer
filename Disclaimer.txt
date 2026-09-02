@@ -1,9 +1,9 @@
-- No Man's Sky Legacy Version Installer -
-https://github.com/qjimbo/NMSLegacyVersionInstaller
+- No Man's Sky Retro Installer -
+https://github.com/NoMansSkyRetro/Installer
 
-The No Man's Sky Legacy Version Installer is a fan-made application created to facilitate the installation of older versions of the game No Man's Sky. This application is intended for use by individuals who wish to experience older versions of the game and is not affiliated with the game's developers or publishers.
+The No Man's Sky Retro Installer is a fan-made application created to facilitate the installation of older versions of the game No Man's Sky. This application is intended for use by individuals who wish to experience older versions of the game and is not affiliated with the game's developers or publishers.
 
-This application does not contain any game data, and only serves as a tool to download the game from Steam. The user must have a valid, purchased copy of the game and provide their own Steam account details to use this application.
+This application does not contain any game data, and only serves as a tool to download the game from Steam. The user must have a valid, purchased copy of the game and provide their own Steam account details to use this application. Your Steam credentials are sent to Steam and to nobody else, and are never written to disk.
 
 The removal of DRM measures in the application is done solely for the purpose of allowing the older version of the game to function and is not intended to encourage or support piracy. The creators of the application do not condone or support piracy, and users are reminded that it is illegal to distribute or use pirated software.
 
@@ -11,19 +11,40 @@ The use of this application is at the user's own risk, and the creators of the a
 
 Users are advised to exercise caution when using this application and to ensure that they are complying with all applicable laws and regulations. The creators of the application are not responsible for any misuse or illegal activity associated with the use of this application.
 
-The following third-party tools are used in No Man's Sky Legacy Version Installer:
-ConsoleControl / ConsoleControlAPI by Dave Kerr - https://github.com/dwmkerr/consolecontrol
-LICENSE: MIT License
-- Used to display CLI application output and allow user input
+The No Man's Sky Retro Installer is released under the GNU General Public License v3.0.
 
-DepotDownloader 3.4.0 by OpenSteamworks - https://github.com/SteamRE/DepotDownloader
+The following third-party work is used in the No Man's Sky Retro Installer:
+
+SteamKit2 by the SteamRE team - https://github.com/SteamRE/SteamKit
+LICENSE: GNU Lesser General Public License v2.1
+- Speaks Steam's protocol: sign-in, depot keys and the content servers the game is downloaded from.
+
+DepotDownloader by the SteamRE team - https://github.com/SteamRE/DepotDownloader
 LICENSE: GNU General Public License v2.0
-- Used to download old versions of the game from Steam.
+- The installer's own depot download is derived from it, which is why this installer is GPL.
 
-Goldberg Steam Emulator Project by Mr_Goldberg - https://gitlab.com/Mr_Goldberg/goldberg_emulator
-LICENSE: GNU Lesser General Public License
-- Used to replace steam_api64.dll with dummy version to prevent "Steam Init Error"
+steam_api64.retro by Qjimbo - https://github.com/NoMansSkyRetro/steam_api64.retro
+LICENSE: MIT License
+- Replaces steam_api64.dll so these builds run without the Steam client, unwrapping the SteamStub
+  DRM in memory as the game loads. It contains no code from either project below, but its
+  SteamStub handling follows Steamless by atom0s (https://github.com/atom0s/Steamless) and its
+  Steamworks interface layout follows the Goldberg Steam Emulator by Mr_Goldberg
+  (https://gitlab.com/Mr_Goldberg/goldberg_emulator).
 
-Steamless 3.1.0.3 by atom0s - https://github.com/atom0s/Steamless
-LICENSE: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
-- Used to remove SteamStub DRM to prevent the game from attempting to launch the Steam Client or execute the current version.
+RetroShaderFix by EthanRDoesMC - https://github.com/EthanRDoesMC/RetroShaderFix
+- The shader packs that fix the older builds against current graphics drivers, applied
+  automatically during the install and bundled as a standalone tool in the Extras folder.
+
+The following fonts are used in the No Man's Sky Retro Installer:
+
+Geosans Light by Manfred Klein, as the GeosansLight-NMS variant
+- The "NO MAN'S SKY" and "INSTALLER" lettering in the logo, and every step heading.
+
+NEON LED Light by Qara Anass / Fontles - https://www.fontles.com
+LICENSE: Fontles Standard License
+- The "RETRO" lettering in the logo.
+
+Analog Whispers by Rahul Parihar - https://doublegum.gumroad.com/l/analogwhispers
+LICENSE: A licence was purchased by the author (Qjimbo); the free release of the font is the one
+bundled here.
+- Field labels, buttons, the install log and the rest of the on-screen text.

@@ -1,0 +1,31 @@
+<UserControl x:Class="NMSRetroInstaller.VersionsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:NMSRetroInstaller">
+    <Canvas x:Name="Board" Width="1050" Height="520">
+
+        <local:StepHeader x:Name="Header" Heading="SELECT VERSIONS"
+                          Subtitle="Pick one or more. Each version installs into its own folder, so they live side by side."/>
+
+        <!-- Cards are built from GameCatalog in the code-behind and dropped in here. -->
+
+        <Canvas x:Name="PathRow" Opacity="0">
+            <TextBlock Canvas.Left="24" Canvas.Top="380" Text="INSTALL LOCATION"
+                       Style="{StaticResource FieldLabel}"/>
+            <TextBox x:Name="PathBox" Canvas.Left="24" Canvas.Top="396" Width="880" Height="34"
+                     Style="{StaticResource Field}"/>
+            <local:AccentButton x:Name="BrowseButton" Text="BROWSE" Click="OnBrowse"
+                                Canvas.Left="916" Canvas.Top="396" Width="110" Height="34"
+                                FontSize="15"/>
+        </Canvas>
+
+        <Canvas x:Name="ActionRow" Opacity="0">
+            <TextBlock x:Name="Summary" Canvas.Left="24" Canvas.Top="464" FontSize="13"
+                       Foreground="{StaticResource Muted}"/>
+            <local:AccentButton x:Name="InstallButton" Text="INSTALL" Click="OnInstall"
+                                Canvas.Left="846" Canvas.Top="450" Width="180"
+                                RenderTransformOrigin="0.5,0.5"/>
+        </Canvas>
+
+    </Canvas>
+</UserControl>

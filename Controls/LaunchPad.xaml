@@ -1,0 +1,45 @@
+<UserControl x:Class="NMSRetroInstaller.LaunchPad"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:NMSRetroInstaller">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- One tile per installed version, centred however many there are. -->
+        <StackPanel x:Name="Tiles" Orientation="Horizontal" HorizontalAlignment="Center"
+                    VerticalAlignment="Top"/>
+
+        <TextBlock x:Name="Empty" FontSize="14" Opacity="0" Margin="0,60,0,0"
+                   HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Foreground="{StaticResource Muted}"
+                   Text="No installed versions found in this folder."/>
+
+        <Grid x:Name="Footer" Grid.Row="1" Margin="24,0,24,0" Opacity="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <local:AccentButton x:Name="FolderButton" Text="OPEN INSTALL FOLDER"
+                                Click="OnOpenFolder" Width="270" Height="38" FontSize="16"
+                                VerticalAlignment="Center"/>
+
+            <!-- No Width: it stretches to whatever the other two leave. -->
+            <local:AccentButton x:Name="SiteButton" Grid.Column="1" Click="OnWebsite"
+                                Text="nomansskyretro.com"
+                                Icon="{StaticResource GlobeIcon}"
+                                Margin="10,0" Height="38" FontSize="16"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+            <local:AccentButton x:Name="DiscordButton" Grid.Column="2" Click="OnDiscord"
+                                Text="NO MAN'S SKY RETRO DISCORD"
+                                Icon="/Resources/discord.png"
+                                Width="360" Height="38" FontSize="16"
+                                VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>

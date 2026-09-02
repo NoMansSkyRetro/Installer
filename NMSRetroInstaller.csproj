@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>NMSRetroInstaller</RootNamespace>
+    <AssemblyName>NMSRetroInstaller</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Version>2.0.0</Version>
+    <Product>No Man's Sky Retro Installer</Product>
+    <Company>nomansskyretro.com</Company>
+    <Copyright>Copyright (C) 2023-2026 Qjimbo / nomansskyretro.com</Copyright>
+  </PropertyGroup>
+
+  <!-- Ships as one self-contained executable, so nobody has to install a .NET runtime first.
+       The same executable is the launcher: see App.xaml.cs. -->
+  <PropertyGroup>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <!-- Symbols inside the executable: nothing extra to copy, and no loose .pdb to ship. -->
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <!-- bin\ holds the finished article and nothing else: one NMSRetroInstaller.exe, whichever
+       configuration produced it. The loose assemblies a plain build emits are of no interest
+       once they are all bundled into that file, so they go under obj\ with the rest of the
+       build litter instead of nesting bin\ five folders deep. -->
+  <PropertyGroup>
+    <BaseOutputPath>obj\build\</BaseOutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <PublishDir>bin\</PublishDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SteamKit2" Version="3.4.0" />
+  </ItemGroup>
+
+  <!-- Artwork, fonts and the disclaimer are compiled into the assembly as WPF resources. -->
+  <ItemGroup>
+    <Resource Include="icon.ico" />
+    <Resource Include="Resources\*.png" />
+    <Resource Include="Resources\covers\*.png" />
+    <Resource Include="Resources\*.ttf" />
+    <Resource Include="Resources\*.otf" />
+    <Resource Include="Disclaimer.txt" Link="Resources\Disclaimer.txt" />
+  </ItemGroup>
+
+  <!-- Payload written out during the install. Embedded (not WPF resources) because it is copied
+       to disk by name, the way the WinForms installer did it. -->
+  <ItemGroup>
+    <EmbeddedResource Include="InstallerFiles\steam_api64.dll" />
+    <EmbeddedResource Include="InstallerExtras\*.ico" />
+    <EmbeddedResource Include="InstallerExtras\RetroShaderFix.exe" />
+    <EmbeddedResource Include="InstallerShaderFix\*.pak" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" />
+    <None Include="README.md" />
+    <None Include="LICENSE" />
+  </ItemGroup>
+
+</Project>

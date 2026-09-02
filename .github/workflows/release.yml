@@ -13,42 +13,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
 
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v2
-
-      - name: Restore NuGet packages
-        run: nuget restore NMSLegacyVersionInstaller.sln
-
-      - name: Build (Release|x86)
-        run: msbuild NMSLegacyVersionInstaller.sln /p:Configuration=Release /p:Platform=x86 /m
-
-      - name: Locate build output
-        id: locate
+      # Publishes the single self-contained executable into bin\ and runs the self-check,
+      # which is everything the install does apart from the Steam download.
+      - name: Build
         shell: pwsh
-        run: |
-          $exe = Get-ChildItem -Path . -Recurse -Filter "NMSLegacyVersionInstaller.exe" `
-            | Where-Object { $_.FullName -match "\\bin\\x86\\Release\\" } `
-            | Select-Object -First 1
-          if (-not $exe) {
-            $exe = Get-ChildItem -Path . -Recurse -Filter "NMSLegacyVersionInstaller.exe" `
-              | Where-Object { $_.FullName -match "\\Release\\" } `
-              | Select-Object -First 1
-          }
-          if (-not $exe) { throw "Build output NMSLegacyVersionInstaller.exe not found" }
-          echo "exe_path=$($exe.FullName)" >> $env:GITHUB_OUTPUT
+        run: .\Build.ps1
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: NMSLegacyVersionInstaller
-          path: ${{ steps.locate.outputs.exe_path }}
+          name: NMSRetroInstaller
+          path: bin/NMSRetroInstaller.exe
 
       - name: Create GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ steps.locate.outputs.exe_path }}
+          files: bin/NMSRetroInstaller.exe
           generate_release_notes: true

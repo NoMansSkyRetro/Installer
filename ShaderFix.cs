@@ -1,31 +1,37 @@
 using System;
 using System.IO;
-using System.Management;
-using System.Reflection;
+using Microsoft.Win32;
 
-namespace NMSLegacyVersionInstaller
+namespace NMSRetroInstaller
 {
     // Shader fix logic ported from RetroShaderFix by Qjimbo.
     // The .pak files (the actual fix) are made by Ethan (EthanRDoesMC) - https://github.com/EthanRDoesMC/RetroShaderFix
     public static class ShaderFix
     {
-        public static Enums.GPU DetectGPU(Action<string> log = null)
+        // Display adapters as the driver class key lists them - the same names WMI reports,
+        // without dragging in System.Management for one string.
+        public static Enums.GPU DetectGPU(Action<string>? log = null)
         {
-            Enums.GPU result = Enums.GPU.Unknown;
+            const string DisplayClass = @"SYSTEM\CurrentControlSet\Control\Class\{4d36e968-e325-11ce-bfc1-08002be10318}";
             try
             {
-                using (var searcher = new ManagementObjectSearcher("SELECT Name FROM Win32_VideoController"))
+                using (var cls = Registry.LocalMachine.OpenSubKey(DisplayClass))
                 {
-                    foreach (ManagementObject obj in searcher.Get())
+                    if (cls == null) return Enums.GPU.Unknown;
+
+                    foreach (var subName in cls.GetSubKeyNames())
                     {
-                        string raw = (obj["Name"] ?? "").ToString();
-                        if (log != null) log("Display adapter: " + raw);
-                        string name = raw.ToLower();
-                        // Take the first AMD/NVIDIA adapter (skip Intel iGPUs enumerated first on laptops).
-                        if (result == Enums.GPU.Unknown)
+                        using (var adapter = cls.OpenSubKey(subName))
                         {
-                            if (name.Contains("amd") || name.Contains("radeon")) result = Enums.GPU.AMD;
-                            else if (name.Contains("nvidia") || name.Contains("geforce")) result = Enums.GPU.nVidia;
+                            string? raw = adapter?.GetValue("DriverDesc") as string;
+                            if (string.IsNullOrEmpty(raw)) continue;
+
+                            if (log != null) log("Display adapter: " + raw);
+                            string name = raw.ToLowerInvariant();
+
+                            // Take the first AMD/NVIDIA adapter (skip Intel iGPUs enumerated first on laptops).
+                            if (name.Contains("amd") || name.Contains("radeon")) return Enums.GPU.AMD;
+                            if (name.Contains("nvidia") || name.Contains("geforce")) return Enums.GPU.NVIDIA;
                         }
                     }
                 }
@@ -34,7 +40,7 @@ namespace NMSLegacyVersionInstaller
             {
                 if (log != null) log("GPU detection error: " + ex.Message);
             }
-            return result;
+            return Enums.GPU.Unknown;
         }
 
         // Applies the shader fix to one downloaded version folder (gameRoot contains Binaries\ and GAMEDATA\).
@@ -63,7 +69,7 @@ namespace NMSLegacyVersionInstaller
                     ExtractPak("Universal.AMDSpaceMapHorizon.pak", pcbanks, log);
                     ExtractPak("Release.AMDFragData.pak", pcbanks, log);
                 }
-                // No nVidia fix exists for Release.
+                // No NVIDIA fix exists for Release.
             }
             else if (update == Enums.Update.Foundation)
             {
@@ -77,7 +83,7 @@ namespace NMSLegacyVersionInstaller
                     ExtractPak("Universal.AMDSpaceMapHorizon.pak", target, log);
                     ExtractPak("Foundations.AMDTextureArray.pak", target, log);
                 }
-                else if (gpu == Enums.GPU.nVidia)
+                else if (gpu == Enums.GPU.NVIDIA)
                 {
                     madeChange = true;
                     ExtractPak("Foundations.NVIDIAFragData.pak", target, log);
@@ -92,7 +98,7 @@ namespace NMSLegacyVersionInstaller
                     ExtractPak("Universal.AMDSpaceMapHorizon.pak", modsFolder, log);
                     ExtractPak("Pathfinder.AMDTextureArray.pak", modsFolder, log);
                 }
-                else if (gpu == Enums.GPU.nVidia)
+                else if (gpu == Enums.GPU.NVIDIA)
                 {
                     madeChange = true;
                     ExtractPak("Pathfinder.NVIDIAFragData.pak", modsFolder, log);
@@ -107,7 +113,7 @@ namespace NMSLegacyVersionInstaller
                     ExtractPak("Universal.AMDSpaceMapHorizon.pak", modsFolder, log);
                     ExtractPak("AtlasRises.AMDTextureArray.pak", modsFolder, log);
                 }
-                // No nVidia fix exists for Atlas Rises.
+                // No NVIDIA fix exists for Atlas Rises.
             }
 
             if (madeChange)
@@ -142,31 +148,17 @@ namespace NMSLegacyVersionInstaller
         // Writes an embedded .pak to the target folder, prefixed zzzzzzzzzzzzz so it loads last and overrides stock shaders.
         private static void ExtractPak(string fileName, string outputPath, Action<string> log)
         {
-            string resourceName = "NMSLegacyVersionInstaller.InstallerShaderFix." + fileName;
             try
             {
-                Assembly assembly = Assembly.GetExecutingAssembly();
-                using (Stream resourceStream = assembly.GetManifestResourceStream(resourceName))
-                {
-                    if (resourceStream == null)
-                    {
-                        log("WARNING: embedded pak not found: " + resourceName);
-                        return;
-                    }
-                    if (!Directory.Exists(outputPath))
-                        Directory.CreateDirectory(outputPath);
-                    string outFile = Path.Combine(outputPath, "zzzzzzzzzzzzz" + fileName);
-                    using (FileStream fileStream = new FileStream(outFile, FileMode.Create))
-                    {
-                        resourceStream.CopyTo(fileStream);
-                    }
-                    log("Wrote " + outFile);
-                }
+                string outFile = Path.Combine(outputPath, "zzzzzzzzzzzzz" + fileName);
+                Payload.Write("InstallerShaderFix." + fileName, outFile);
+                log("Wrote " + outFile);
             }
             catch (Exception ex)
             {
                 log("Failed to write " + fileName + ": " + ex.Message);
             }
         }
+
     }
 }

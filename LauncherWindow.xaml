@@ -1,0 +1,20 @@
+<Window x:Class="NMSRetroInstaller.LauncherWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:NMSRetroInstaller"
+        Title="No Man's Sky Retro Launcher" Icon="icon.ico"
+        Width="1160" Height="600" Background="#262326"
+        WindowStartupLocation="CenterScreen"
+        RenderOptions.BitmapScalingMode="HighQuality">
+
+    <Grid>
+        <!-- Same 1050x520 board as the installer, so the two look like one product. -->
+        <Viewbox Stretch="Uniform" Margin="36,20">
+            <Canvas Width="1050" Height="520">
+                <local:StepHeader x:Name="Header" Heading="LAUNCHER"/>
+                <local:LaunchPad x:Name="Pad" Canvas.Left="0" Canvas.Top="114"
+                              Width="1050" Height="386"/>
+            </Canvas>
+        </Viewbox>
+    </Grid>
+</Window>

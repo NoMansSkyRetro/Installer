@@ -1,0 +1,414 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:NMSRetroInstaller">
+
+    <!-- Grey with the logo's red as the accent. Raised surfaces use Panel, anything recessed
+         (input fields, the disclaimer well) drops to Well. -->
+    <SolidColorBrush x:Key="Panel" Color="#787478"/>
+    <SolidColorBrush x:Key="Well" Color="#3C393C"/>
+    <!-- One step deeper than Well, so an input still reads as recessed inside a panel
+         that is itself a well. -->
+    <SolidColorBrush x:Key="Trough" Color="#2A272A"/>
+    <SolidColorBrush x:Key="Edge" Color="#A0A0A0"/>
+    <SolidColorBrush x:Key="Line" Color="#5C585C"/>
+    <SolidColorBrush x:Key="Accent" Color="#DF3E60"/>
+    <SolidColorBrush x:Key="Label" Color="#D8D4D8"/>
+    <SolidColorBrush x:Key="Muted" Color="#C4C0C4"/>
+
+    <!-- Button palette, sampled off the logo diamond: face, highlight edge, shadow edge, and the
+         warm plum it picks up on hover. -->
+    <SolidColorBrush x:Key="BtnFace" Color="#473C48"/>
+    <SolidColorBrush x:Key="BtnLight" Color="#52495A"/>
+    <SolidColorBrush x:Key="BtnDark" Color="#343436"/>
+    <SolidColorBrush x:Key="BtnHot" Color="#612E42"/>
+
+    <!-- ============ input fields ============ -->
+
+    <!-- One template serves TextBox and PasswordBox: both host their content in PART_ContentHost. -->
+    <ControlTemplate x:Key="FieldTemplate" TargetType="Control">
+        <Border x:Name="Trough" CornerRadius="2"
+                Background="{StaticResource Trough}"
+                BorderBrush="{StaticResource Line}" BorderThickness="1">
+            <ScrollViewer x:Name="PART_ContentHost" Margin="9,0" VerticalAlignment="Center"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Trough" Property="BorderBrush" Value="#8A868A"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter TargetName="Trough" Property="BorderBrush" Value="{StaticResource Accent}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="Field" TargetType="Control">
+        <Setter Property="Template" Value="{StaticResource FieldTemplate}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="TextBoxBase.CaretBrush" Value="{StaticResource Accent}"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="Height" Value="28"/>
+        <Setter Property="Width" Value="445"/>
+    </Style>
+
+    <!-- Wireframe globe, drawn rather than shipped as art so it inherits the accent colour.
+         A DrawingImage is an ImageSource, so it fits AccentButton's Icon slot directly. -->
+    <DrawingImage x:Key="GlobeIcon">
+        <DrawingImage.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="{StaticResource Accent}" Thickness="1.6"
+                         StartLineCap="Round" EndLineCap="Round"/>
+                </GeometryDrawing.Pen>
+                <GeometryDrawing.Geometry>
+                    <GeometryGroup>
+                        <EllipseGeometry Center="12,12" RadiusX="10" RadiusY="10"/>
+                        <EllipseGeometry Center="12,12" RadiusX="4.3" RadiusY="10"/>
+                        <LineGeometry StartPoint="12,2" EndPoint="12,22"/>
+                        <LineGeometry StartPoint="2,12" EndPoint="22,12"/>
+                        <LineGeometry StartPoint="3.4,7" EndPoint="20.6,7"/>
+                        <LineGeometry StartPoint="3.4,17" EndPoint="20.6,17"/>
+                    </GeometryGroup>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <!-- Foreground lives in the style, not on the element: a local value would outrank the
+         hover trigger. -->
+    <Style x:Key="AccentLink" TargetType="Hyperlink">
+        <Setter Property="Foreground" Value="{StaticResource Accent}"/>
+        <Setter Property="TextDecorations" Value="{x:Null}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="White"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FieldLabel" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="Foreground" Value="{StaticResource Label}"/>
+    </Style>
+
+    <!-- ============ slim scrollbar ============ -->
+
+    <Style x:Key="SlimScrollBar" TargetType="ScrollBar">
+        <Setter Property="Width" Value="9"/>
+        <Setter Property="Background" Value="#2E2B2E"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollBar">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                        <Track x:Name="PART_Track" IsDirectionReversed="True">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.PageUpCommand" Focusable="False">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate><Border Background="Transparent"/></ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.DecreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb>
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Border x:Name="Grip" Margin="2,0" CornerRadius="3"
+                                                    Background="#7E7A7E"/>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="Grip" Property="Background"
+                                                            Value="{StaticResource Accent}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track.Thumb>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="ScrollBar.PageDownCommand" Focusable="False">
+                                    <RepeatButton.Template>
+                                        <ControlTemplate><Border Background="Transparent"/></ControlTemplate>
+                                    </RepeatButton.Template>
+                                </RepeatButton>
+                            </Track.IncreaseRepeatButton>
+                        </Track>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ============ AccentButton ============ -->
+
+    <!-- Flat and square, bezelled the old way: a light edge along the top and left, a dark one
+         along the bottom and right. Pressed swaps the two, which is the whole trick. -->
+    <Style TargetType="{x:Type local:AccentButton}">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FontSize" Value="21"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AccentButton}">
+                    <Border x:Name="Light" BorderThickness="2,2,0,0"
+                            BorderBrush="{StaticResource BtnLight}">
+                        <Border x:Name="Dark" BorderThickness="0,0,2,2"
+                                BorderBrush="{StaticResource BtnDark}">
+                            <Border Background="{StaticResource BtnFace}" x:Name="Face">
+                                <!-- Icon centres on the button; CapNudge drops the label so its
+                                     capitals land on the same line. -->
+                                <StackPanel x:Name="Cap" Orientation="Horizontal"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                    <Image x:Name="Glyph" Height="22" Margin="0,0,11,0"
+                                           Stretch="Uniform" VerticalAlignment="Center"
+                                           Source="{TemplateBinding Icon}"/>
+                                    <TextBlock x:Name="PART_Label"
+                                               Text="{TemplateBinding Text}"
+                                               Margin="{TemplateBinding CapNudge}"
+                                               VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Icon" Value="{x:Null}">
+                            <Setter TargetName="Glyph" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Face" Property="Background"
+                                    Value="{StaticResource BtnLight}"/>
+                            <Setter TargetName="Light" Property="BorderBrush"
+                                    Value="{StaticResource BtnHot}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Face" Property="Background"
+                                    Value="{StaticResource BtnDark}"/>
+                            <Setter TargetName="Light" Property="BorderBrush"
+                                    Value="{StaticResource BtnDark}"/>
+                            <Setter TargetName="Dark" Property="BorderBrush"
+                                    Value="{StaticResource BtnLight}"/>
+                            <Setter TargetName="Cap" Property="Margin" Value="1,1,0,0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Cap" Property="Opacity" Value="0.35"/>
+                            <Setter TargetName="Light" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ============ VersionCard ============ -->
+
+    <!-- The cover art is the top half of a book, so it stands proud of the plate below rather
+         than sitting inside it. -->
+    <Style TargetType="{x:Type local:VersionCard}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Width" Value="237"/>
+        <Setter Property="Height" Value="252"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:VersionCard}">
+                    <Grid Background="Transparent">
+
+                        <Border x:Name="Frame" VerticalAlignment="Bottom" Height="134"
+                                CornerRadius="4" Background="{StaticResource Well}"
+                                BorderBrush="{StaticResource Line}" BorderThickness="2">
+                            <Grid VerticalAlignment="Bottom" Margin="13,0,13,13">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Width="18" Height="18" Margin="0,0,11,0"
+                                      VerticalAlignment="Center">
+                                    <Border x:Name="Box" CornerRadius="2" BorderThickness="1.5"
+                                            Background="#232123"
+                                            BorderBrush="{StaticResource Line}"/>
+                                    <Path x:Name="Tick" Opacity="0" StrokeThickness="2.2"
+                                          Stroke="{StaticResource Accent}"
+                                          StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                          StrokeLineJoin="Round" Data="M 4,9.5 L 7.4,13 L 14,5"/>
+                                </Grid>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock x:Name="TitleText" FontSize="15"
+                                               Text="{TemplateBinding Title}"
+                                               Foreground="{StaticResource Muted}"/>
+                                    <TextBlock x:Name="BuildText" FontSize="11" Margin="0,3,0,0"
+                                               Text="{TemplateBinding Build}"
+                                               Foreground="{StaticResource Line}"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Drawn after the plate, so it overlaps and overhangs it. -->
+                        <Image x:Name="Art" VerticalAlignment="Top" Height="190"
+                               Source="{TemplateBinding Cover}" Stretch="Uniform" Opacity="0.35">
+                            <Image.Effect>
+                                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="6"
+                                                  BlurRadius="14" Opacity="0.65"/>
+                            </Image.Effect>
+                        </Image>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Frame" Property="BorderBrush" Value="#8A868A"/>
+                            <Setter TargetName="Art" Property="Opacity" Value="0.6"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Frame" Property="BorderBrush"
+                                    Value="{StaticResource Accent}"/>
+                            <Setter TargetName="Frame" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect Color="#DF3E60" ShadowDepth="0"
+                                                      BlurRadius="18" Opacity="0.5"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="Art" Property="Opacity" Value="1"/>
+                            <Setter TargetName="Box" Property="BorderBrush"
+                                    Value="{StaticResource Accent}"/>
+                            <Setter TargetName="Tick" Property="Opacity" Value="1"/>
+                            <Setter TargetName="TitleText" Property="Foreground" Value="White"/>
+                            <Setter TargetName="BuildText" Property="Foreground"
+                                    Value="{StaticResource Muted}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ============ progress bar ============ -->
+
+    <!-- Inset bezel (dark top-left, light bottom-right - the inverse of a button) with an accent
+         fill behind a repeating mask, so it reads as a segmented LED bar. -->
+    <Style x:Key="AccentBar" TargetType="ProgressBar">
+        <Setter Property="Height" Value="22"/>
+        <Setter Property="Minimum" Value="0"/>
+        <Setter Property="Maximum" Value="100"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Border BorderThickness="2,2,0,0" BorderBrush="{StaticResource BtnDark}">
+                        <Border BorderThickness="0,0,2,2" BorderBrush="{StaticResource BtnLight}">
+                            <Grid Background="#221F22" ClipToBounds="True">
+                                <Rectangle x:Name="PART_Track"/>
+                                <Rectangle x:Name="PART_Indicator" HorizontalAlignment="Left">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#612E42" Offset="0"/>
+                                            <GradientStop Color="#DF3E60" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                    <Rectangle.Effect>
+                                        <DropShadowEffect Color="#DF3E60" ShadowDepth="0"
+                                                          BlurRadius="12" Opacity="0.6"/>
+                                    </Rectangle.Effect>
+                                </Rectangle>
+                                <Rectangle Opacity="0.4" IsHitTestVisible="False">
+                                    <Rectangle.Fill>
+                                        <DrawingBrush TileMode="Tile" ViewportUnits="Absolute"
+                                                      Viewport="0,0,7,22">
+                                            <DrawingBrush.Drawing>
+                                                <GeometryDrawing Brush="#221F22">
+                                                    <GeometryDrawing.Geometry>
+                                                        <RectangleGeometry Rect="0,0,2,22"/>
+                                                    </GeometryDrawing.Geometry>
+                                                </GeometryDrawing>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ============ terminal ============ -->
+
+    <Style x:Key="Terminal" TargetType="Border">
+        <Setter Property="Background" Value="#161416"/>
+        <Setter Property="BorderThickness" Value="2,2,0,0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BtnDark}"/>
+    </Style>
+
+    <!-- ============ GameTile ============ -->
+
+    <!-- Same art-over-plate shape as VersionCard, but it launches rather than toggles. -->
+    <Style TargetType="{x:Type local:GameTile}">
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Width" Value="237"/>
+        <Setter Property="Height" Value="252"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:GameTile}">
+                    <Grid Background="Transparent">
+
+                        <Border x:Name="Frame" VerticalAlignment="Bottom" Height="134"
+                                CornerRadius="4" Background="{StaticResource Well}"
+                                BorderBrush="{StaticResource Line}" BorderThickness="2">
+                            <Grid VerticalAlignment="Bottom" Margin="13,0,13,13">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock x:Name="TitleText" FontSize="15"
+                                               Text="{TemplateBinding Title}" Foreground="White"/>
+                                    <TextBlock FontSize="11" Margin="0,3,0,0"
+                                               Text="{TemplateBinding Build}"
+                                               Foreground="{StaticResource Muted}"/>
+                                </StackPanel>
+
+                                <Grid Grid.Column="1" Width="26" Height="26"
+                                      VerticalAlignment="Center">
+                                    <Ellipse x:Name="PlayRing" StrokeThickness="1.5"
+                                             Stroke="{StaticResource Line}"/>
+                                    <Path x:Name="PlayMark" Fill="{StaticResource Muted}"
+                                          Data="M 10,7.5 L 18.5,13 L 10,18.5 Z"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <Image x:Name="Art" VerticalAlignment="Top" Height="190"
+                               Source="{TemplateBinding Cover}" Stretch="Uniform">
+                            <Image.Effect>
+                                <DropShadowEffect Color="Black" Direction="270" ShadowDepth="6"
+                                                  BlurRadius="14" Opacity="0.65"/>
+                            </Image.Effect>
+                        </Image>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Frame" Property="BorderBrush"
+                                    Value="{StaticResource Accent}"/>
+                            <Setter TargetName="Frame" Property="Effect">
+                                <Setter.Value>
+                                    <DropShadowEffect Color="#DF3E60" ShadowDepth="0"
+                                                      BlurRadius="18" Opacity="0.5"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="PlayRing" Property="Stroke"
+                                    Value="{StaticResource Accent}"/>
+                            <Setter TargetName="PlayMark" Property="Fill"
+                                    Value="{StaticResource Accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Art" Property="Opacity" Value="0.75"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

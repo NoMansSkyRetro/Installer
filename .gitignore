@@ -1,0 +1,7 @@
+bin/
+obj/
+.vs/
+
+# Working folders, not part of the installer
+.2026redesign/
+.sources/
