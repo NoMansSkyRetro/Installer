@@ -1,4 +1,5 @@
 # No Man's Sky Retro Installer
+<img width="1144" height="591" alt="03-select-versions" src="https://github.com/user-attachments/assets/e2c5d88c-05c8-4d4a-b741-8c9a741c9185" />
 
 Installs the last patched build of four major No Man's Sky updates, side by side, from your own
 Steam account:
@@ -9,16 +10,13 @@ Steam account:
 * **1.38** Atlas Rises
 
 Steam keeps every previous build of a game on its servers. This installer signs in, downloads the
-builds you pick, patches them to run without the Steam client, applies the retro shader fix and
-leaves you a launcher. Made in support of the community at
+versions of No Man's Sky you pick, installs [steam_api64.retro](https://github.com/NoMansSkyRetro/steam_api64.retro) to disconnect them from Steam, applies [EthanRDoesMC](https://github.com/EthanRDoesMC/)'s [RetroShaderFix](https://github.com/EthanRDoesMC/RetroShaderFix) and
+sets up a launcher. Made in support of the community at
 [No Man's Sky Retro](https://nomansskyretro.com).
 
 ## Download
 
 The releases page: https://github.com/NoMansSkyRetro/Installer/releases
-
-One executable, nothing to install first. Pick your versions, sign in with the Steam account that
-owns No Man's Sky, and wait.
 
 ## What version 2.0 changed
 
