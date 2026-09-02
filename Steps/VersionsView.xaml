@@ -5,7 +5,7 @@
     <Canvas x:Name="Board" Width="1050" Height="520">
 
         <local:StepHeader x:Name="Header" Heading="SELECT VERSIONS"
-                          Subtitle="Pick one or more. Each version installs into its own folder, so they live side by side."/>
+                          Subtitle="Pick one or more. Each version installs into its own folder."/>
 
         <!-- Cards are built from GameCatalog in the code-behind and dropped in here. -->
 
