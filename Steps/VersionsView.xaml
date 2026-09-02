@@ -19,11 +19,17 @@
                                 FontSize="15"/>
         </Canvas>
 
+        <Canvas x:Name="LanguageRow" Opacity="0">
+            <TextBlock Canvas.Left="24" Canvas.Top="442" Text="GAME LANGUAGE"
+                       Style="{StaticResource FieldLabel}"/>
+            <!-- Filled from GameCatalog.Languages in the code-behind. -->
+            <ComboBox x:Name="LanguageBox" Canvas.Left="24" Canvas.Top="458" Width="320"
+                      Style="{StaticResource FieldCombo}"/>
+        </Canvas>
+
         <Canvas x:Name="ActionRow" Opacity="0">
-            <TextBlock x:Name="Summary" Canvas.Left="24" Canvas.Top="464" FontSize="13"
-                       Foreground="{StaticResource Muted}"/>
             <local:AccentButton x:Name="InstallButton" Text="INSTALL" Click="OnInstall"
-                                Canvas.Left="846" Canvas.Top="450" Width="180"
+                                Canvas.Left="846" Canvas.Top="456" Width="180"
                                 RenderTransformOrigin="0.5,0.5"/>
         </Canvas>
 

@@ -52,6 +52,12 @@ public partial class VersionsView : UserControl
         }
 
         PathBox.Text = DefaultPath;
+
+        // The popup lives outside this control's visual tree, so it gets the face explicitly.
+        LanguageBox.FontFamily = LogoText.Analog;
+        LanguageBox.ItemsSource = GameCatalog.Languages;
+        LanguageBox.SelectedItem = GameCatalog.DefaultLanguage;
+
         Refresh();
     }
 
@@ -60,6 +66,10 @@ public partial class VersionsView : UserControl
         cards.Where(c => c.IsChecked == true).Select(c => (GameVersion)c.Tag).ToArray();
 
     public string InstallPath => PathBox.Text;
+
+    /// <summary>The language the games will be told to run in.</summary>
+    public GameLanguage SelectedLanguage =>
+        LanguageBox.SelectedItem as GameLanguage ?? GameCatalog.DefaultLanguage;
 
     public Storyboard Play()
     {
@@ -77,24 +87,15 @@ public partial class VersionsView : UserControl
         }
 
         Anim.Rise(sb, PathRow, 14, 0.90, 0.55);
-        Anim.Rise(sb, ActionRow, 14, 1.05, 0.55);
+        Anim.Rise(sb, LanguageRow, 14, 1.00, 0.55);
+        Anim.Rise(sb, ActionRow, 14, 1.10, 0.55);
 
         running = sb;
         sb.Begin(this, isControllable: true);
         return sb;
     }
 
-    void Refresh()
-    {
-        int picked = Selected.Count;
-        InstallButton.IsEnabled = picked > 0;
-        Summary.Text = picked switch
-        {
-            0 => "NOTHING SELECTED",
-            1 => "1 VERSION SELECTED",
-            _ => $"{picked} VERSIONS SELECTED",
-        };
-    }
+    void Refresh() => InstallButton.IsEnabled = Selected.Count > 0;
 
     void OnInstall(object sender, RoutedEventArgs e) =>
         InstallRequested?.Invoke(this, EventArgs.Empty);

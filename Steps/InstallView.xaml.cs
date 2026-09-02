@@ -72,13 +72,15 @@ public partial class InstallView : UserControl
     /// says why and the caller should stay on this step.
     /// </summary>
     public async Task<bool> RunAsync(
-        SteamSession session, IReadOnlyList<GameVersion> versions, string root, CancellationToken ct)
+        SteamSession session, IReadOnlyList<GameVersion> versions, string root,
+        GameLanguage language, CancellationToken ct)
     {
         try
         {
             Say($"install root  {root}", Chatter);
             Say($"signed in as  {session.AccountName}", Chatter);
             Say($"queued        {versions.Count} version(s)", Chatter);
+            Say($"language      {language.Name} ({language.Code})", Chatter);
 
             var gpu = ShaderFix.DetectGPU(s => Say("  " + s, Chatter));
             Say($"graphics      {gpu}", Chatter);
@@ -105,7 +107,7 @@ public partial class InstallView : UserControl
                 // share of the bar - the task line above is what says they are running.
                 SetTask(version.Title + " - PATCH");
                 Say("patching " + version.Title, Phase);
-                Patcher.Apply(root, version, session.AccountName, line => Say("  " + line, Chatter));
+                Patcher.Apply(root, version, session.AccountName, language, line => Say("  " + line, Chatter));
 
                 SetTask(version.Title + " - SHADER FIX");
                 Say("applying the retro shader fix", Phase);

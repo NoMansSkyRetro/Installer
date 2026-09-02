@@ -14,7 +14,8 @@ namespace NMSRetroInstaller;
 /// </summary>
 public static class Patcher
 {
-    public static void Apply(string root, GameVersion version, string accountName, Action<string> log)
+    public static void Apply(
+        string root, GameVersion version, string accountName, GameLanguage language, Action<string> log)
     {
         var binaries = GameCatalog.BinariesFolder(root, version);
         var dll = Path.Combine(binaries, "steam_api64.dll");
@@ -29,19 +30,19 @@ public static class Patcher
         Payload.Write("InstallerFiles.steam_api64.dll", dll);
         log("Installed steam_api64.retro");
 
-        File.WriteAllText(Path.Combine(binaries, "steam_api64.txt"), Settings(version, accountName));
-        log($"Wrote steam_api64.txt (steamid {version.SaveId}, saves in st_{version.SaveId})");
+        File.WriteAllText(Path.Combine(binaries, "steam_api64.txt"), Settings(version, accountName, language));
+        log($"Wrote steam_api64.txt (steamid {version.SaveId}, saves in st_{version.SaveId}, language {language.Code})");
     }
 
     /// <summary>
     /// The DLL writes this file itself on first run; writing it here instead pins the save folder
     /// to the build, names the account the way Steam spells it, and turns on the two extras.
     /// </summary>
-    static string Settings(GameVersion version, string accountName) =>
+    static string Settings(GameVersion version, string accountName, GameLanguage language) =>
         $"""
         steamid={version.SaveId}
         name={accountName}
-        language=english
+        language={language.Code}
         # true skips the mods-enabled warning screen at boot (1.13 and later)
         disablemodwarning=true
         # http://host:port or https://host sends the discoveries traffic to that server instead of Hello Games

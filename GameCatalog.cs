@@ -31,6 +31,14 @@ public sealed record GameVersion(
     string Icon,
     Enums.Update Update);
 
+/// <summary>A language the game can be told to run in.</summary>
+/// <param name="Code">Steam language code, as the game expects to read it back from Steam.</param>
+/// <param name="Name">What the picker shows.</param>
+public sealed record GameLanguage(string Code, string Name)
+{
+    public override string ToString() => Name;
+}
+
 /// <summary>
 /// The four versions the installer knows about. One list, shared by the picker, the install run,
 /// the completion screen and the launcher - folder names have to agree across all of them or the
@@ -46,6 +54,36 @@ public static class GameCatalog
 
     public const uint AppId = 275850;
     public const uint DepotId = 275851;
+
+    /// <summary>
+    /// The languages these builds understand, written as <c>language</c> in steam_api64.txt.
+    /// <para>
+    /// The game asks Steam for the current language and matches the answer against a fixed list of
+    /// Steam language codes; anything it does not recognise falls back to the Windows display
+    /// language and then to English. All four builds carry the same fourteen codes, so one list
+    /// covers the lot. Names are in English because the interface font has no CJK or Cyrillic
+    /// glyphs to spell them natively.
+    /// </para>
+    /// </summary>
+    public static readonly IReadOnlyList<GameLanguage> Languages =
+    [
+        new("english", "English"),
+        new("french", "French"),
+        new("italian", "Italian"),
+        new("german", "German"),
+        new("spanish", "Spanish"),
+        new("dutch", "Dutch"),
+        new("polish", "Polish"),
+        new("portuguese", "Portuguese"),
+        new("brazilian", "Portuguese (Brazil)"),
+        new("russian", "Russian"),
+        new("japanese", "Japanese"),
+        new("koreana", "Korean"),
+        new("schinese", "Chinese (Simplified)"),
+        new("tchinese", "Chinese (Traditional)"),
+    ];
+
+    public static GameLanguage DefaultLanguage => Languages[0];
 
     public static readonly IReadOnlyList<GameVersion> All =
     [

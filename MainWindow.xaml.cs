@@ -87,7 +87,7 @@ public partial class MainWindow : Window
         Show(Install);
         Install.Play();
 
-        if (!await Install.RunAsync(session, picked, root, closing.Token))
+        if (!await Install.RunAsync(session, picked, root, Versions.SelectedLanguage, closing.Token))
             return;   // the log on screen says what went wrong; leave it up
 
         Show(Complete);

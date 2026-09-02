@@ -56,7 +56,7 @@ public static class SelfCheck
                 File.WriteAllText(Path.Combine(binaries, "steam_api64.dll"), "stock");
                 File.WriteAllText(GameCatalog.ExePath(temp, version), "stub");
 
-                Patcher.Apply(temp, version, "SteamPersonName", _ => { });
+                Patcher.Apply(temp, version, "SteamPersonName", GameCatalog.DefaultLanguage, _ => { });
 
                 var dll = Path.Combine(binaries, "steam_api64.dll");
                 Check($"{version.Title}: original dll backed up", File.Exists(dll + ".bak"));
@@ -68,6 +68,7 @@ public static class SelfCheck
                 Check($"{version.Title}: mod warning disabled", settings.Contains("disablemodwarning=true\r\n"));
                 Check($"{version.Title}: discoveries rerouted",
                     settings.Contains("discoveriesserver=" + GameCatalog.DiscoveriesServer + "\r\n"));
+                Check($"{version.Title}: language written", settings.Contains("language=english\r\n"));
 
                 // Both vendors, so a missing pak shows up whichever card the user has.
                 foreach (var gpu in new[] { Enums.GPU.AMD, Enums.GPU.NVIDIA })
@@ -80,6 +81,22 @@ public static class SelfCheck
                 var shortcut = Path.Combine(temp, version.ShortcutName + ".lnk");
                 Shortcuts.Create(shortcut, GameCatalog.ExePath(temp, version), icon: Path.Combine(extras, version.Icon));
                 Check($"{version.Title}: shortcut written", File.Exists(shortcut));
+            }
+
+            // The game matches these against a fixed list of Steam codes and silently falls back
+            // to the Windows language if one is wrong, so a typo here would be invisible in play.
+            Check("language codes are unique and lowercase",
+                GameCatalog.Languages.Select(l => l.Code).Distinct().Count() == GameCatalog.Languages.Count
+                && GameCatalog.Languages.All(l => l.Code == l.Code.ToLowerInvariant()));
+
+            var probe = GameCatalog.All[0];
+            foreach (var language in GameCatalog.Languages)
+            {
+                Patcher.Apply(temp, probe, "SteamPersonName", language, _ => { });
+                var written = File.ReadAllText(
+                    Path.Combine(GameCatalog.BinariesFolder(temp, probe), "steam_api64.txt"));
+                Check($"language {language.Code} ({language.Name}) is written",
+                    written.Contains($"language={language.Code}\r\n"));
             }
 
             Check("launcher sees every installed version", GameCatalog.Installed(temp).Count == GameCatalog.All.Count);
