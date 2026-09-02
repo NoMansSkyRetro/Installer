@@ -9,10 +9,8 @@ Steam account:
 * **1.24** Path Finder
 * **1.38** Atlas Rises
 
-Steam keeps every previous build of a game on its servers. This installer signs in, downloads the
-versions of No Man's Sky you pick, installs [steam_api64.retro](https://github.com/NoMansSkyRetro/steam_api64.retro) to disconnect them from Steam, applies [EthanRDoesMC](https://github.com/EthanRDoesMC/)'s [RetroShaderFix](https://github.com/EthanRDoesMC/RetroShaderFix) and
-sets up a launcher. Made in support of the community at
-[No Man's Sky Retro](https://nomansskyretro.com).
+Steam keeps every previous build of a game on its servers. The No Man's Sky Retro Installer signs into Steam using [SteamKit2](https://github.com/SteamRE/SteamKit), downloads the versions of No Man's Sky you select, installs [steam_api64.retro](https://github.com/NoMansSkyRetro/steam_api64.retro) to disconnect them from the Steam client, applies [EthanRDoesMC](https://github.com/EthanRDoesMC/)'s [RetroShaderFix](https://github.com/EthanRDoesMC/RetroShaderFix) and
+sets up a game launcher. Made in support of the community at [No Man's Sky Retro](https://nomansskyretro.com).
 
 ## Download
 
