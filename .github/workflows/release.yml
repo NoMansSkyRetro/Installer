@@ -6,6 +6,11 @@ on:
       - "v*"
   workflow_dispatch: {}
 
+# Creating the release needs write access to the repository contents; without it the
+# "Create GitHub Release" step fails with "Resource not accessible by integration".
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: windows-latest
